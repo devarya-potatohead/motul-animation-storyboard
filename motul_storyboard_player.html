@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motul Motion Design Storyboard</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      height: 4px;
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #141414;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ED1C24;
+    }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 sm:p-4">
+  <div class="max-w-4xl mx-auto bg-[#141414] text-white border border-[#262626] rounded-xl overflow-hidden shadow-2xl">
+    
+    <!-- Header Bar -->
+    <div class="px-4 py-2.5 border-b border-[#262626] flex items-center justify-between bg-[#181818]">
+      <div class="flex items-center space-x-2.5">
+        <div class="bg-[#ED1C24] px-2 py-0.5 rounded-[1px] font-black italic tracking-tighter text-white text-sm leading-none select-none">
+          MOTUL
+        </div>
+        <div class="h-3.5 w-[1px] bg-[#333]"></div>
+        <span class="text-xs font-semibold uppercase tracking-wider text-neutral-300">Motion Design Reference • Page 41</span>
+      </div>
+      <div class="flex items-center space-x-2 text-[11px]">
+        <span class="hidden sm:inline-block px-2 py-0.5 rounded bg-[#242424] text-neutral-400 font-mono">60 FPS Production</span>
+        <span class="px-2 py-0.5 rounded bg-[#ED1C24]/15 text-[#ED1C24] font-medium border border-[#ED1C24]/30">Brand Compliant</span>
+      </div>
+    </div>
+
+    <!-- Viewport Area -->
+    <div class="relative p-3 bg-black flex flex-col items-center">
+      
+      <!-- Video Frame Viewport -->
+      <div id="viewport" class="relative w-full aspect-video max-w-2xl bg-[#141414] rounded-lg overflow-hidden border border-[#2a2a2a] shadow-inner select-none flex items-center justify-center">
+        
+        <!-- Canvas for dynamic particle wave / halftone sweep -->
+        <canvas id="waveCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+        <!-- Scene Layer 1: Motul Logotype Packshot (Frame 1 - 4) -->
+        <div id="logoLayer" class="absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-300 z-20">
+          <div id="motulLogo" class="relative bg-[#ED1C24] px-7 py-3 sm:px-9 sm:py-3.5 rounded-[2px] shadow-2xl transform origin-center transition-transform duration-100 flex items-center justify-center">
+            <span class="text-white font-black italic tracking-tighter text-3xl sm:text-4xl leading-none select-none" style="transform: skewX(-8deg); letter-spacing: -0.04em;">
+              MOTUL
+            </span>
+            <!-- Ghost echo trail -->
+            <div id="logoTrail" class="absolute -bottom-6 opacity-0 pointer-events-none transition-opacity duration-150">
+              <span class="text-[#ED1C24]/40 font-black italic tracking-tighter text-2xl sm:text-3xl leading-none select-none blur-[1px]" style="transform: skewX(-8deg); letter-spacing: -0.04em;">
+                MOTUL
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scene Layer 2: Typography Headline (Frame 7 - 8) -->
+        <div id="textLayer" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4 z-20 opacity-0 transition-opacity duration-200">
+          <div class="text-center max-w-lg">
+            <!-- Line 1: CO-CREATORS OF -->
+            <div id="textLine1" class="text-white font-black tracking-tight text-xl sm:text-3xl leading-tight overflow-hidden whitespace-nowrap">
+              <span class="inline-block transform translate-y-full transition-transform duration-500 ease-out">CO-CREATORS OF</span>
+            </div>
+            
+            <!-- Line 2: PERFORMANCE with Red Lipstick Under ANCE -->
+            <div id="textLine2" class="relative inline-block mt-1 text-white font-black tracking-tight text-xl sm:text-3xl leading-tight overflow-hidden">
+              <span id="perfWord" class="inline-block transform translate-y-full transition-transform duration-500 ease-out">
+                <span>PERFORM</span><span id="anceLetters" class="relative inline-block">ANCE
+                  <!-- Red Lipstick Bar Under Last Syllable 'ANCE' (Height: X/3) -->
+                  <span id="redLipstick" class="absolute left-0 -bottom-1.5 sm:-bottom-2 w-full h-[5px] sm:h-[7px] bg-[#ED1C24] rounded-none opacity-0 transform scale-x-0 origin-left transition-all duration-200 ease-out shadow-[0_0_10px_rgba(237,28,36,0.6)]"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brand Grid Overlay -->
+        <div id="gridOverlay" class="absolute inset-0 pointer-events-none border border-red-500/20 opacity-0 transition-opacity duration-200 z-30">
+          <div class="absolute inset-x-0 top-1/2 h-[1px] bg-red-500/20"></div>
+          <div class="absolute inset-y-0 left-1/2 w-[1px] bg-red-500/20"></div>
+          <div class="absolute left-4 top-4 text-[10px] font-mono text-red-400 bg-black/70 px-1.5 py-0.5 rounded">Brand Grid 16:9 • Axis Center</div>
+        </div>
+
+        <!-- Status Badges -->
+        <div class="absolute top-2.5 left-2.5 z-30 flex items-center space-x-1.5">
+          <div class="bg-black/80 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-neutral-300 border border-white/10">
+            FRAME <span id="currentFrameNum" class="text-[#ED1C24] font-bold">1</span>/8
+          </div>
+          <div id="timecodeBadge" class="bg-black/80 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-neutral-400 border border-white/10">
+            00:00:00
+          </div>
+        </div>
+
+        <!-- Phase Badge -->
+        <div class="absolute bottom-2.5 right-2.5 z-30">
+          <div class="bg-black/85 backdrop-blur-md px-2.5 py-0.5 rounded text-[10px] font-medium text-white border border-[#333] flex items-center space-x-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#ED1C24] animate-pulse"></span>
+            <span id="phaseText">1. Logotype Packshot Entrance</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Playback Bar & Controls -->
+      <div class="w-full max-w-2xl mt-2.5 bg-[#181818] border border-[#2a2a2a] rounded-lg p-2.5">
+        
+        <!-- Scrubber Track -->
+        <div class="relative w-full h-1.5 bg-[#2a2a2a] rounded-full overflow-hidden cursor-pointer group mb-2" id="scrubberTrack">
+          <div id="progressBar" class="h-full bg-gradient-to-r from-[#ED1C24] to-[#ff4a52] w-[12.5%] transition-all duration-75 relative">
+            <div class="absolute right-0 top-0 bottom-0 w-1.5 bg-white"></div>
+          </div>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="flex items-center justify-between gap-2">
+          
+          <!-- Play / Nav Buttons -->
+          <div class="flex items-center space-x-1.5">
+            <button id="playBtn" class="bg-[#ED1C24] hover:bg-[#d6151c] text-white px-3 py-1 rounded text-xs font-semibold transition-colors flex items-center space-x-1 shadow-md shadow-[#ED1C24]/20">
+              <svg id="playIcon" class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span id="playBtnText">Play</span>
+            </button>
+            <button id="prevBtn" class="bg-[#242424] hover:bg-[#303030] text-neutral-300 p-1.5 rounded text-xs transition-colors" title="Previous Frame">
+              <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+            <button id="nextBtn" class="bg-[#242424] hover:bg-[#303030] text-neutral-300 p-1.5 rounded text-xs transition-colors" title="Next Frame">
+              <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
+            <button id="resetBtn" class="bg-[#242424] hover:bg-[#303030] text-neutral-400 hover:text-white px-2 py-1 rounded text-xs transition-colors">
+              Reset
+            </button>
+          </div>
+
+          <!-- Speeds -->
+          <div class="flex items-center space-x-1 bg-[#141414] p-0.5 rounded border border-[#2a2a2a] text-[11px]">
+            <button class="speed-btn px-1.5 py-0.5 rounded text-neutral-400" data-speed="0.5">0.5x</button>
+            <button class="speed-btn px-1.5 py-0.5 rounded bg-[#262626] text-white font-bold" data-speed="1.0">1.0x</button>
+            <button class="speed-btn px-1.5 py-0.5 rounded text-neutral-400" data-speed="1.5">1.5x</button>
+          </div>
+
+          <!-- Toggles -->
+          <div class="flex items-center space-x-1.5">
+            <button id="gridToggle" class="px-2 py-1 rounded bg-[#242424] hover:bg-[#303030] text-[11px] text-neutral-300 transition-colors">
+              Grid
+            </button>
+            <button id="infoToggle" class="px-2 py-1 rounded bg-[#242424] hover:bg-[#303030] text-[11px] text-neutral-300 transition-colors flex items-center space-x-1">
+              <span>Specs</span>
+              <svg id="infoArrow" class="w-2.5 h-2.5 fill-current transform transition-transform" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Frame Strip -->
+    <div class="p-3 border-t border-[#262626] bg-[#161616]">
+      <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5">
+        
+        <!-- F1 -->
+        <button class="frame-card active text-left p-1.5 rounded bg-[#202020] border border-[#ED1C24] transition-all" data-frame="1">
+          <div class="w-full aspect-video bg-black rounded flex items-center justify-center relative overflow-hidden mb-1">
+            <div class="bg-[#ED1C24] px-1.5 py-0.5 rounded-[1px] transform translate-y-2 scale-65"><span class="text-white text-[8px] font-black italic">MOTUL</span></div>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">01. Rise</div>
+        </button>
+
+        <!-- F2 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="2">
+          <div class="w-full aspect-video bg-black rounded flex items-center justify-center relative overflow-hidden mb-1">
+            <div class="bg-[#ED1C24] px-1.5 py-0.5 rounded-[1px] transform translate-y-1 scale-80"><span class="text-white text-[8px] font-black italic">MOTUL</span></div>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">02. Echo</div>
+        </button>
+
+        <!-- F3 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="3">
+          <div class="w-full aspect-video bg-black rounded flex items-center justify-center relative overflow-hidden mb-1">
+            <div class="bg-[#ED1C24] px-2 py-0.5 rounded-[1px] transform scale-95"><span class="text-white text-[8px] font-black italic">MOTUL</span></div>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">03. Snap</div>
+        </button>
+
+        <!-- F4 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="4">
+          <div class="w-full aspect-video bg-black rounded flex items-center justify-center relative overflow-hidden mb-1">
+            <div class="bg-[#ED1C24] px-2.5 py-0.5 rounded-[1px] transform scale-100"><span class="text-white text-[8px] font-black italic">MOTUL</span></div>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">04. Hold</div>
+        </button>
+
+        <!-- F5 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="5">
+          <div class="w-full aspect-video bg-black rounded flex items-center justify-center relative overflow-hidden mb-1">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#ED1C24]/30 to-transparent flex items-center justify-center text-[7px] text-red-300 font-mono">M O T</div>
+            <div class="bg-[#ED1C24]/60 px-1.5 py-0.5 rounded-[1px] opacity-75"><span class="text-white text-[7px] font-black italic">MOTUL</span></div>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">05. Wave</div>
+        </button>
+
+        <!-- F6 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="6">
+          <div class="w-full aspect-video bg-black rounded flex items-center justify-center relative overflow-hidden mb-1">
+            <span class="text-[8px] font-mono text-red-300 tracking-wider">M O T U L</span>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">06. Sweep</div>
+        </button>
+
+        <!-- F7 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="7">
+          <div class="w-full aspect-video bg-black rounded flex flex-col items-center justify-center relative overflow-hidden mb-1">
+            <span class="text-[7px] font-black text-white">CO-CREATORS</span>
+          </div>
+          <div class="text-[10px] font-bold text-white truncate">07. Text</div>
+        </button>
+
+        <!-- F8 -->
+        <button class="frame-card text-left p-1.5 rounded bg-[#1c1c1c] border border-transparent transition-all" data-frame="8">
+          <div class="w-full aspect-video bg-black rounded flex flex-col items-center justify-center relative overflow-hidden mb-1">
+            <span class="text-[7px] font-black text-white relative">ANCE
+              <span class="absolute left-0 -bottom-0.5 w-full h-[1.5px] bg-[#ED1C24]"></span>
+            </span>
+          </div>
+          <div class="text-[10px] font-bold text-[#ED1C24] truncate">08. Lipstick</div>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Expandable Specs Panel -->
+    <div id="specsPanel" class="p-3.5 border-t border-[#262626] bg-[#1a1a1a] grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+      <div>
+        <div class="text-neutral-400 font-semibold uppercase tracking-wider text-[10px] mb-1">Active Step Choreography</div>
+        <h4 id="detailTitle" class="text-sm font-bold text-white mb-1">Frame 01: Logo Initial Rise & Trajectory</h4>
+        <p id="detailDesc" class="text-neutral-300 text-xs leading-relaxed">
+          The Motul logo enters from the bottom center, accelerating upward with a vertical speed vector. An echo trail in 40% opacity red renders behind the moving element, matching Page 41 Row 1.
+        </p>
+      </div>
+      <div class="bg-[#141414] rounded-lg p-2.5 border border-[#262626] space-y-1 text-[11px]">
+        <div class="flex justify-between text-neutral-400">
+          <span>Guideline Ref:</span>
+          <span id="specRef" class="text-white font-mono">Page 41, Row 1 (Logotype)</span>
+        </div>
+        <div class="flex justify-between text-neutral-400">
+          <span>Brand Rule:</span>
+          <span id="specRule" class="text-[#ED1C24] font-mono">Adjusted Logotype & Upward Trail</span>
+        </div>
+        <div class="flex justify-between text-neutral-400">
+          <span>Easing / Physics:</span>
+          <span id="specEase" class="text-white font-mono">cubic-bezier(0.16, 1, 0.3, 1)</span>
+        </div>
+        <div class="flex justify-between text-neutral-400">
+          <span>Lipstick Rule:</span>
+          <span id="specLipstick" class="text-emerald-400 font-mono">Under 'ANCE' • H = X/3 (Page 33)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const FRAMES = [
+      {
+        num: 1,
+        timecode: "00:00:00",
+        phase: "1. Logotype Packshot Entrance",
+        title: "Frame 01: Logo Initial Rise",
+        desc: "Adjusted Motul logotype enters vertically from lower center along the grid axis. A speed ghost trail in 40% opacity red trails behind, directly implementing Row 1 Frame 1 of Page 41.",
+        ref: "Page 41, Row 1 (Logotype Packshot)",
+        rule: "Adjusted Logotype & Upward Speed Trail",
+        ease: "cubic-bezier(0.16, 1, 0.3, 1)",
+        lipstick: "Pending text reveal phase"
+      },
+      {
+        num: 2,
+        timecode: "00:00:15",
+        phase: "1. Logotype Dynamic Acceleration",
+        title: "Frame 02: Scale Expansion & Trail Echo",
+        desc: "Logo scales upward from 65% to 85% as it ascends. Secondary trailing ghost stretches vertically, simulating optical motion blur as illustrated in Row 1 Frame 2 of Page 41.",
+        ref: "Page 41, Row 1, Frame 2",
+        rule: "Kinetic Motion Echo (8-frame lag)",
+        ease: "Fluid ease-out deceleration",
+        lipstick: "Pending text reveal phase"
+      },
+      {
+        num: 3,
+        timecode: "00:00:28",
+        phase: "1. Logotype Optical Center Snap",
+        title: "Frame 03: Centering & Trail Absorption",
+        desc: "Logotype reaches optical center (X: 50%, Y: 50%). Trailing ghost collapses cleanly back into the solid parent vector with zero overshoot, per Row 1 Frame 3 of Page 41.",
+        ref: "Page 41, Row 1, Frame 3",
+        rule: "Damped spring center lock",
+        ease: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        lipstick: "Pending text reveal phase"
+      },
+      {
+        num: 4,
+        timecode: "00:00:42",
+        phase: "2. Brand Hero Hold",
+        title: "Frame 04: Confident Brand Anchor",
+        desc: "The Motul logotype rests in pristine stillness. Solid Motul Red (#ED1C24) with white italic lettering over Dark Carbon (#141414) for 0.65s brand imprint.",
+        ref: "Pages 16-19 & Page 41 Row 1 Frame 4",
+        rule: "Hero Logotype Authority",
+        ease: "Static Hold (zero drift)",
+        lipstick: "Pending text reveal phase"
+      },
+      {
+        num: 5,
+        timecode: "00:01:05",
+        phase: "3. Halftone Wave Transition",
+        title: "Frame 05: Wave Crest Collision",
+        desc: "The dynamic typographic pattern wave (Pages 36-37, Page 41 Row 4) formed of M-O-T-U-L glyphs surges in at 35° diagonal, slicing across the logo like a high-speed oil fluid wave.",
+        ref: "Pages 36-37 & Page 41 Row 4",
+        rule: "M-O-T-U-L Typographic Halftone Wave",
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+        lipstick: "Pending text reveal phase"
+      },
+      {
+        num: 6,
+        timecode: "00:01:24",
+        phase: "3. Wave Wipe & Reset",
+        title: "Frame 06: Full Screen Fluid Wipe",
+        desc: "The wave expands across the full viewport, washing away the logo and clearing the canvas into a clean, high-contrast dark field for the typography reveal.",
+        ref: "Page 41, Row 4, Frames 3-4",
+        rule: "Full Bleed Fluid Wipe Transition",
+        ease: "Continuous laminar surge",
+        lipstick: "Pending text reveal phase"
+      },
+      {
+        num: 7,
+        timecode: "00:01:45",
+        phase: "4. Typography Horizontal Wipe",
+        title: "Frame 07: Graphik Kinetic Text Reveal",
+        desc: "The headline 'CO-CREATORS OF PERFORMANCE' enters using the horizontal kinetic text wipe (Page 41 Row 2). Characters reveal progressively from left to right with Graphik Bold geometry.",
+        ref: "Page 41, Row 2 (Typography animation)",
+        rule: "Left-to-Right Progressive Mask Reveal",
+        ease: "cubic-bezier(0.25, 1, 0.5, 1)",
+        lipstick: "Preparing snap at terminal baseline"
+      },
+      {
+        num: 8,
+        timecode: "00:02:15",
+        phase: "5. Red Lipstick Signature Snap",
+        title: "Frame 08: Red Lipstick Under 'ANCE'",
+        desc: "The signature 'Red Lipstick' bar snaps into place under the final syllable 'ANCE'. Height is precisely X/3, width equals 'ANCE' bounding box, completing the Motul brand mark.",
+        ref: "Page 33 (Red Lipstick Rule) & Page 41 Row 2",
+        rule: "Red Lipstick Under Last Syllable 'ANCE'",
+        ease: "cubic-bezier(0.18, 0.89, 0.32, 1.28) (snap)",
+        lipstick: "ACTIVE: Under 'ANCE' • H = X/3 • #ED1C24"
+      }
+    ];
+
+    let currentFrame = 1;
+    let isPlaying = false;
+    let playbackSpeed = 1.0;
+    let animReq = null;
+    const TOTAL_DURATION_MS = 4800;
+
+    // Elements
+    const motulLogo = document.getElementById('motulLogo');
+    const logoTrail = document.getElementById('logoTrail');
+    const logoLayer = document.getElementById('logoLayer');
+    const textLayer = document.getElementById('textLayer');
+    const textLine1 = document.getElementById('textLine1').firstElementChild;
+    const textLine2 = document.getElementById('perfWord');
+    const redLipstick = document.getElementById('redLipstick');
+    const waveCanvas = document.getElementById('waveCanvas');
+    const ctx = waveCanvas.getContext('2d');
+    const gridOverlay = document.getElementById('gridOverlay');
+
+    const currentFrameNum = document.getElementById('currentFrameNum');
+    const timecodeBadge = document.getElementById('timecodeBadge');
+    const phaseText = document.getElementById('phaseText');
+    const progressBar = document.getElementById('progressBar');
+
+    const detailTitle = document.getElementById('detailTitle');
+    const detailDesc = document.getElementById('detailDesc');
+    const specRef = document.getElementById('specRef');
+    const specRule = document.getElementById('specRule');
+    const specEase = document.getElementById('specEase');
+    const specLipstick = document.getElementById('specLipstick');
+
+    function resizeCanvas() {
+      const rect = waveCanvas.getBoundingClientRect();
+      waveCanvas.width = rect.width * window.devicePixelRatio;
+      waveCanvas.height = rect.height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawMotulWave(progress) {
+      const rect = waveCanvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+
+      if (progress <= 0 || progress >= 1.0) return;
+
+      const letters = ['M', 'O', 'T', 'U', 'L'];
+      const waveX = progress * (w + 350) - 180;
+
+      ctx.save();
+      const rows = 12;
+      const cols = 24;
+      const cellW = w / cols;
+      const cellH = h / rows;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const posX = c * cellW + cellW / 2;
+          const posY = r * cellH + cellH / 2;
+
+          const distToWave = (posX - waveX) + (posY - h / 2) * 0.7;
+          
+          if (distToWave < 110 && distToWave > -160) {
+            const intensity = Math.sin(((distToWave + 160) / 270) * Math.PI);
+            if (intensity > 0.05) {
+              const letterIndex = (r * 3 + c) % letters.length;
+              const letter = letters[letterIndex];
+
+              ctx.font = `${Math.floor(intensity * 16 + 6)}px Inter, sans-serif`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              
+              if (c % 2 === 0) {
+                ctx.fillStyle = `rgba(237, 28, 36, ${intensity * 0.9})`;
+              } else {
+                ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.75})`;
+              }
+              
+              ctx.fillText(letter, posX, posY);
+            }
+          }
+        }
+      }
+      ctx.restore();
+    }
+
+    function applyFrameState(fIndex) {
+      const f = FRAMES[fIndex - 1];
+      currentFrame = fIndex;
+
+      currentFrameNum.textContent = f.num;
+      timecodeBadge.textContent = f.timecode;
+      phaseText.textContent = f.phase;
+      progressBar.style.width = `${(fIndex / 8) * 100}%`;
+
+      detailTitle.textContent = f.title;
+      detailDesc.textContent = f.desc;
+      specRef.textContent = f.ref;
+      specRule.textContent = f.rule;
+      specEase.textContent = f.ease;
+      specLipstick.textContent = f.lipstick;
+
+      document.querySelectorAll('.frame-card').forEach(card => {
+        if (parseInt(card.dataset.frame) === fIndex) {
+          card.classList.add('border-[#ED1C24]', 'bg-[#202020]');
+          card.classList.remove('border-transparent', 'bg-[#1c1c1c]');
+        } else {
+          card.classList.remove('border-[#ED1C24]', 'bg-[#202020]');
+          card.classList.add('border-transparent', 'bg-[#1c1c1c]');
+        }
+      });
+
+      ctx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+
+      if (fIndex === 1) {
+        logoLayer.style.opacity = '1';
+        motulLogo.style.transform = 'translateY(80px) scale(0.65)';
+        logoTrail.style.opacity = '0.5';
+        textLayer.style.opacity = '0';
+        textLine1.style.transform = 'translateY(100%)';
+        textLine2.style.transform = 'translateY(100%)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+      } 
+      else if (fIndex === 2) {
+        logoLayer.style.opacity = '1';
+        motulLogo.style.transform = 'translateY(30px) scale(0.85)';
+        logoTrail.style.opacity = '0.8';
+        textLayer.style.opacity = '0';
+        textLine1.style.transform = 'translateY(100%)';
+        textLine2.style.transform = 'translateY(100%)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+      }
+      else if (fIndex === 3) {
+        logoLayer.style.opacity = '1';
+        motulLogo.style.transform = 'translateY(0px) scale(0.98)';
+        logoTrail.style.opacity = '0.2';
+        textLayer.style.opacity = '0';
+        textLine1.style.transform = 'translateY(100%)';
+        textLine2.style.transform = 'translateY(100%)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+      }
+      else if (fIndex === 4) {
+        logoLayer.style.opacity = '1';
+        motulLogo.style.transform = 'translateY(0px) scale(1.0)';
+        logoTrail.style.opacity = '0';
+        textLayer.style.opacity = '0';
+        textLine1.style.transform = 'translateY(100%)';
+        textLine2.style.transform = 'translateY(100%)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+      }
+      else if (fIndex === 5) {
+        logoLayer.style.opacity = '0.85';
+        motulLogo.style.transform = 'translateY(0px) scale(0.98) skewX(-2deg)';
+        logoTrail.style.opacity = '0';
+        textLayer.style.opacity = '0';
+        textLine1.style.transform = 'translateY(100%)';
+        textLine2.style.transform = 'translateY(100%)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+        drawMotulWave(0.42);
+      }
+      else if (fIndex === 6) {
+        logoLayer.style.opacity = '0.15';
+        motulLogo.style.transform = 'translateY(-15px) scale(0.85) skewX(6deg)';
+        logoTrail.style.opacity = '0';
+        textLayer.style.opacity = '0';
+        textLine1.style.transform = 'translateY(100%)';
+        textLine2.style.transform = 'translateY(100%)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+        drawMotulWave(0.82);
+      }
+      else if (fIndex === 7) {
+        logoLayer.style.opacity = '0';
+        textLayer.style.opacity = '1';
+        textLine1.style.transform = 'translateY(0)';
+        textLine2.style.transform = 'translateY(0)';
+        redLipstick.style.opacity = '0';
+        redLipstick.style.transform = 'scaleX(0)';
+      }
+      else if (fIndex === 8) {
+        logoLayer.style.opacity = '0';
+        textLayer.style.opacity = '1';
+        textLine1.style.transform = 'translateY(0)';
+        textLine2.style.transform = 'translateY(0)';
+        redLipstick.style.opacity = '1';
+        redLipstick.style.transform = 'scaleX(1)';
+      }
+    }
+
+    function playFullSequence() {
+      if (isPlaying) {
+        pauseSequence();
+        return;
+      }
+
+      isPlaying = true;
+      document.getElementById('playBtnText').textContent = 'Pause';
+      document.getElementById('playIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+
+      let startFrameTime = performance.now();
+
+      function frameLoop(now) {
+        if (!isPlaying) return;
+
+        const elapsed = (now - startFrameTime) * playbackSpeed;
+        const rawProgress = elapsed / TOTAL_DURATION_MS;
+
+        if (rawProgress >= 1.0) {
+          applyFrameState(8);
+          pauseSequence();
+          return;
+        }
+
+        const frameIndex = Math.min(8, Math.max(1, Math.floor(rawProgress * 8) + 1));
+        if (frameIndex !== currentFrame) {
+          applyFrameState(frameIndex);
+        }
+
+        if (rawProgress >= 0.38 && rawProgress <= 0.78) {
+          const waveP = (rawProgress - 0.38) / 0.40;
+          drawMotulWave(waveP);
+          if (waveP > 0.3) {
+            const logoFade = 1 - ((waveP - 0.3) / 0.7);
+            logoLayer.style.opacity = Math.max(0, logoFade);
+          }
+        } else if (rawProgress > 0.78) {
+          ctx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+          logoLayer.style.opacity = '0';
+        }
+
+        if (rawProgress >= 0.88) {
+          redLipstick.style.opacity = '1';
+          redLipstick.style.transform = 'scaleX(1)';
+        }
+
+        progressBar.style.width = `${rawProgress * 100}%`;
+        const seconds = (rawProgress * 4.8).toFixed(2);
+        timecodeBadge.textContent = `00:0${Math.floor(seconds)}:${Math.floor((seconds % 1) * 60).toString().padStart(2, '0')}`;
+
+        animReq = requestAnimationFrame(frameLoop);
+      }
+
+      animReq = requestAnimationFrame(frameLoop);
+    }
+
+    function pauseSequence() {
+      isPlaying = false;
+      if (animReq) cancelAnimationFrame(animReq);
+      document.getElementById('playBtnText').textContent = 'Play';
+      document.getElementById('playIcon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+    }
+
+    document.getElementById('playBtn').addEventListener('click', playFullSequence);
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      pauseSequence();
+      applyFrameState(1);
+    });
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      pauseSequence();
+      if (currentFrame > 1) applyFrameState(currentFrame - 1);
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      pauseSequence();
+      if (currentFrame < 8) applyFrameState(currentFrame + 1);
+    });
+
+    document.querySelectorAll('.frame-card').forEach(card => {
+      card.addEventListener('click', () => {
+        pauseSequence();
+        applyFrameState(parseInt(card.dataset.frame));
+      });
+    });
+
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.classList.remove('bg-[#262626]', 'text-white', 'font-bold');
+          b.classList.add('text-neutral-400');
+        });
+        btn.classList.add('bg-[#262626]', 'text-white', 'font-bold');
+        btn.classList.remove('text-neutral-400');
+        playbackSpeed = parseFloat(btn.dataset.speed);
+      });
+    });
+
+    let gridVisible = false;
+    document.getElementById('gridToggle').addEventListener('click', (e) => {
+      gridVisible = !gridVisible;
+      gridOverlay.style.opacity = gridVisible ? '1' : '0';
+      e.target.classList.toggle('bg-[#ED1C24]', gridVisible);
+      e.target.classList.toggle('text-white', gridVisible);
+      e.target.classList.toggle('bg-[#242424]', !gridVisible);
+    });
+
+    let infoVisible = true;
+    document.getElementById('infoToggle').addEventListener('click', () => {
+      infoVisible = !infoVisible;
+      document.getElementById('specsPanel').classList.toggle('hidden', !infoVisible);
+      document.getElementById('infoArrow').classList.toggle('rotate-180', !infoVisible);
+    });
+
+    document.getElementById('scrubberTrack').addEventListener('click', (e) => {
+      pauseSequence();
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      const targetFrame = Math.min(8, Math.max(1, Math.floor(pct * 8) + 1));
+      applyFrameState(targetFrame);
+    });
+
+    applyFrameState(1);
+  </script>
+</body>
+</html>
